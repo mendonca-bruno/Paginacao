@@ -8,6 +8,7 @@ public class Main {
         MMU mmu = new MMU(ram,disco);
         
         Processo p1 = new Processo(01, "Processo 01", ram, mmu, disco);
+        Processo p2 = new Processo(02, "Processo 02", ram, mmu, disco);
         
     }
 }

@@ -1,11 +1,11 @@
 package pages;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public class MMU {
     
-    HashMap<Processo, ArrayList<Pagina>> memoriaVirtual;
+    HashMap<Processo, LinkedList<Pagina>> memoriaVirtual;
     RAM ram;
     Disco disco;
     
@@ -18,7 +18,7 @@ public class MMU {
     public void mostraProcessos(){
         for(HashMap.Entry entry : memoriaVirtual.entrySet()){
             
-            ArrayList<Pagina> paginas = new ArrayList<>(memoriaVirtual.get(entry.getKey()));
+            LinkedList<Pagina> paginas = new LinkedList<>(memoriaVirtual.get(entry.getKey()));
             for(Pagina pag:paginas){
                 System.out.println(pag.id);
             }
@@ -27,12 +27,12 @@ public class MMU {
     }
     
     public void adicionaProcesso(Processo proc){
-        ArrayList<Pagina> paginas = new ArrayList<>();
+        LinkedList<Pagina> paginas = new LinkedList<>();
         memoriaVirtual.put(proc, paginas);
     }
     
     public int checaTamanho(Processo proc){
-        ArrayList<Pagina> paginas = new ArrayList<>(memoriaVirtual.get(proc));
+        LinkedList<Pagina> paginas = new LinkedList<>(memoriaVirtual.get(proc));
         if(paginas.isEmpty()) return 0;
         else if(paginas.size() < 4) return 1;
         else if(paginas.size() == 4) return 2;
@@ -41,7 +41,7 @@ public class MMU {
     
     public int paginaExiste(Pagina pag){
         for(HashMap.Entry procPag : memoriaVirtual.entrySet()){
-            for(Pagina inpag: (ArrayList<Pagina>)procPag.getValue()){
+            for(Pagina inpag: (LinkedList<Pagina>)procPag.getValue()){
               if(inpag.id == pag.id)return 1;  
             }
             
@@ -51,13 +51,14 @@ public class MMU {
     
     public void checaPagina(Processo proc, Pagina pagina){
         //verifica se pagina solicitada esta armazenada na MMU
+        System.out.println("Tamanho :" +checaTamanho(proc));
         if(checaTamanho(proc)==1){
             //nao foram alocadas todas as memorias virtuais para o processo
             disco.acessaDisco(proc, pagina);
             System.out.println("Adicionou mais uma pagininha");
             adicionaPagina(proc, pagina);
             mostraProcessos();
-            adicionaRam(pagina);
+            adicionaRam(proc, pagina);
             proc.counter++;
             
         }
@@ -68,8 +69,9 @@ public class MMU {
                 proc.counter++;
                 return;
             }
-            
-           
+            //precisa trocar a pagina
+            trocaPagina(proc, pagina);
+            proc.counter++;
         }
         else{
             //adiciona a primeira pagina
@@ -78,15 +80,16 @@ public class MMU {
             System.out.println("Primeira pagina adicionada");
             mostraProcessos();
             pagina.cabeca = true;
-            adicionaRam(pagina);
+            ram.adicionaProcesso(proc,pagina);
+            adicionaRam(proc, pagina);
             proc.counter++;
         }
         
     }
     
-    public void adicionaRam(Pagina pagina){
+    public void adicionaRam(Processo proc, Pagina pagina){
         //manda pagina para a ram
-        ram.alocaPagina(pagina);
+        ram.alocaPagina(proc, pagina);
     }
     
     public void adicionaPagina(Processo proc, Pagina pagina){
@@ -94,9 +97,20 @@ public class MMU {
         memoriaVirtual.get(proc).add(pagina);
     }
     
-    public void trocaPagina(){
+    public void trocaPagina(Processo proc, Pagina pag){
         //algortimo de troca de paginas aqui
         //FIFO
+        Pagina p = memoriaVirtual.get(proc).getFirst();
+        //int posicao = ram.pegaPosica(proc, pag);
         
+        disco.acessaDisco(proc, pag);
+        ram.remover(proc, p);
+        //removo a cabeça da fila das paginas
+        memoriaVirtual.get(proc).remove();
+        adicionaPagina(proc, pag);
+        System.out.println("Pagina trocada!");
+        mostraProcessos();
+        //System.out.println("pos : " +posicao);
+        ram.alocaPagina(proc, pag);
     }
 }
