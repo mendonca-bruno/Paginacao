@@ -30,4 +30,17 @@ public class Disco {
         return 1;
         
     }
+    
+    public int acessaDisco(Processo proc, Pagina pagina){
+        //simula o acesso ao disco para achar uma determinada pagina
+        System.out.println("*Acessando disco*");
+        for(HashMap.Entry entry : memoriaArmazenamento.entrySet()){
+            ArrayList<Pagina> paginas = memoriaArmazenamento.get(entry.getKey());
+            for (Pagina p : paginas){
+                if(p.id == pagina.id) return 1;
+            }
+        }
+        
+        return 0;
+    }
 }

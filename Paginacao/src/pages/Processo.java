@@ -11,6 +11,8 @@ public class Processo {
     MMU mmu;
     Disco disco;
     Integer armazenado;
+    Integer counter;
+    boolean processoFinalizou;
     
     public Processo (Integer id, String nome, RAM ram, MMU mmu, Disco disco){
         this.id = id;
@@ -19,6 +21,8 @@ public class Processo {
         this.ram = ram;
         this.mmu = mmu;
         this.disco = disco;
+        counter = 0;
+        processoFinalizou = false;
         criaPaginas();
     }
     
@@ -44,7 +48,12 @@ public class Processo {
         // o processo decide qual pagina é necessaria a ser utilizada
         // a mmu é responsavel por colocar essa pagina na memoria ram
         mmu.adicionaProcesso(this);
+        //while do counter aqui
         mmu.checaPagina(this, paginas.get(2));
+        mmu.checaPagina(this, paginas.get(0));
+        mmu.checaPagina(this, paginas.get(1));
+        mmu.checaPagina(this, paginas.get(3));
+        mmu.checaPagina(this, paginas.get(4));
     }
     
     public void armazenaDisco(){
