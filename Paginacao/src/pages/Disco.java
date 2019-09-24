@@ -43,4 +43,8 @@ public class Disco {
         
         return 0;
     }
+    
+    public void removePaginasProc(Processo proc){
+        memoriaArmazenamento.remove(proc);
+    }
 }

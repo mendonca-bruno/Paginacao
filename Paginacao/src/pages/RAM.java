@@ -1,44 +1,48 @@
 package pages;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class RAM {
     //como a memoria ram é ilimitada, cada processo sera adicionado o seu id,
     //e para cada id, terá uma list de paginas (4paginas disponiveis) 
-    HashMap<Processo,ArrayList<Pagina>> memoriaFisica;
+    ArrayList<Pagina> memoriaFisica;
+    Integer index;
     
     public RAM(){
-        memoriaFisica = new HashMap<>();
+        memoriaFisica = new ArrayList<>();
+        index = 20;
     }
     
-    public void adicionaProcesso(Processo proc, Pagina pag){
-        ArrayList<Pagina> paginas = new ArrayList<>();
-        paginas.add(pag);
-        memoriaFisica.put(proc, paginas);
+    public void alocaSO(){
+        for (int i=0; i<20; i++){
+            Pagina p = new Pagina(null, i);
+            memoriaFisica.add(p);
+        }
     }
     
-    public void alocaPagina(Processo proc, Pagina pagina){
-        memoriaFisica.get(proc).add(pagina);
+    public void alocaPagina(Pagina pagina){
+        memoriaFisica.add(pagina);
+        //mostraPaginas();
+        
     }
     
     public void mostraPaginas(){
         
         System.out.println("Paginas na ram:");
-        for (HashMap.Entry pagProc : memoriaFisica.entrySet()){
-            for(Pagina p : (ArrayList<Pagina>)pagProc.getValue()){
-                System.out.println(p.id);
-            }
+        for(int i=20; i<memoriaFisica.size(); i++){
+            System.out.println(memoriaFisica.get(i).processo.nome +" : " +memoriaFisica.get(i).id);
         }
         
     }
     
-    public int pegaPosica(Processo proc, Pagina pag){
-        mostraPaginas();
-        return memoriaFisica.get(proc).indexOf(pag);
+    public void removerPaginasProc(ArrayList<Pagina> pag){
+        for(Pagina pagProc : pag){
+            memoriaFisica.remove(pagProc);
+        }
+        return;
     }
     
-    public void remover(Processo proc, Pagina pag){
-        memoriaFisica.get(proc).remove(pag);
+    public void remover(Pagina pag){
+        memoriaFisica.remove(pag);
     }
 }

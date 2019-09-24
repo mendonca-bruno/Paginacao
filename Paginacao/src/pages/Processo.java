@@ -42,19 +42,23 @@ public class Processo {
         } 
         embaralhaPaginas();
         armazenaDisco();
-        //alocaRam();
     }
     
     public void solicitaPagina(){
         // o processo decide qual pagina é necessaria a ser utilizada
         // a mmu é responsavel por colocar essa pagina na memoria ram
         mmu.adicionaProcesso(this);
-        //while do counter aqui
         for(int i=0; i<16; i++){
             mmu.checaPagina(this, paginas.get(i));
         }
         System.out.println("*Finalizando Processo*");
-        
+        //remove paginas da ram
+        System.out.println("*Desalocando da RAM*");
+        ram.removerPaginasProc(paginas);
+        //remove paginas do disco
+        System.out.println("*Desalocando do DISCO*");
+        disco.removePaginasProc(this);
+        //ram.mostraPaginas();
     }
     
     public void armazenaDisco(){
