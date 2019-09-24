@@ -65,8 +65,13 @@ public class Processo {
         armazenado = disco.armazenarDisco(this);
         if(armazenado == 1){
             embaralhaPaginas();
-            solicitaPagina();
+            //solicitaPagina();
         }
+    }
+    
+    @Override
+    public String toString(){
+        return nome;
     }
     
 
