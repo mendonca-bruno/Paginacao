@@ -13,6 +13,7 @@ public class Processo {
     Integer armazenado;
     Integer counter;
     boolean processoFinalizou;
+    boolean finalizado;
     
     public Processo (Integer id, String nome, RAM ram, MMU mmu, Disco disco){
         this.id = id;
@@ -23,6 +24,7 @@ public class Processo {
         this.disco = disco;
         counter = 0;
         processoFinalizou = false;
+        finalizado = false;
         criaPaginas();
     }
     
@@ -47,6 +49,7 @@ public class Processo {
     public void solicitaPagina(){
         // o processo decide qual pagina é necessaria a ser utilizada
         // a mmu é responsavel por colocar essa pagina na memoria ram
+        
         mmu.adicionaProcesso(this);
         for(int i=0; i<16; i++){
             mmu.checaPagina(this, paginas.get(i));
@@ -58,13 +61,36 @@ public class Processo {
         //remove paginas do disco
         System.out.println("*Desalocando do DISCO*");
         disco.removePaginasProc(this);
-        //ram.mostraPaginas();
+    }
+    
+    public void solicitaPagina(Pagina p){
+        if(finalizado==false){
+            if(counter<16){
+            mmu.checaPagina(this, p);
+            counter++;
+        }
+        else{
+           System.out.println("*Finalizando Processo*");
+            //remove paginas da ram
+            System.out.println("*Desalocando da RAM*");
+            ram.removerPaginasProc(paginas);
+            //remove paginas do disco
+            System.out.println("*Desalocando do DISCO*");
+            disco.removePaginasProc(this);
+            //ram.mostraPaginas() 
+            finalizado=true;
+        }
+        }else{
+            System.out.println("Processo Finalizado!");
+        }
+        
     }
     
     public void armazenaDisco(){
         armazenado = disco.armazenarDisco(this);
         if(armazenado == 1){
             embaralhaPaginas();
+            mmu.adicionaProcesso(this);
             //solicitaPagina();
         }
     }

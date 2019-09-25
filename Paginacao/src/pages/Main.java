@@ -1,12 +1,16 @@
 package pages;
 
+import java.util.ArrayList;
+
 public class Main {
+    public static ArrayList<Processo> procLista;
     public static RAM ram;
     public static Disco disco;
     public static MMU mmu;
         
     public static void main(String[] args) {
         
+        procLista = new ArrayList<>();
         ram = new RAM();        
         disco = new Disco();
         mmu = new MMU(ram,disco);

@@ -59,6 +59,12 @@ public class MMU {
         //verifica se pagina solicitada esta armazenada na MMU
         if(checaTamanho(proc)==1){
             //nao foram alocadas todas as memorias virtuais para o processo
+            if(paginaExiste(pagina)==1){
+                System.out.println("Esta pagina ja esta alocada na MMU");
+                proc.counter++;
+                proc.embaralhaPaginas();
+                return;
+            }
             disco.acessaDisco(proc, pagina);
             System.out.println("Adicionou mais uma pagina");
             adicionaPagina(proc, pagina);

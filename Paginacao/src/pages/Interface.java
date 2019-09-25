@@ -15,7 +15,8 @@ import javax.swing.DefaultListModel;
  * @author CC44984357886
  */
 public class Interface extends javax.swing.JFrame {
-
+    DefaultListModel lista1 = new DefaultListModel();
+    DefaultListModel lista = new DefaultListModel();
     /**
      * Creates new form Interface
      */
@@ -33,19 +34,24 @@ public class Interface extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        jList1 = new javax.swing.JList<String>();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
+        jList2 = new javax.swing.JList<String>();
         jButton1 = new javax.swing.JButton();
+        jButtonPasso = new javax.swing.JButton();
+        jTextFieldprocNome = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+        jList1.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "" };
             public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+            public Object getElementAt(int i) { return strings[i]; }
         });
         jList1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -59,10 +65,10 @@ public class Interface extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jList1);
 
-        jList2.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+        jList2.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = {};
             public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+            public Object getElementAt(int i) { return strings[i]; }
         });
         jScrollPane2.setViewportView(jList2);
 
@@ -73,14 +79,38 @@ public class Interface extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Passo");
+        jButtonPasso.setText("Executa Aleatorio");
+        jButtonPasso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPassoActionPerformed(evt);
+            }
+        });
+
+        jTextFieldprocNome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldprocNomeActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Nome Processo:");
+
+        jLabel2.setText("Processos");
+
+        jLabel3.setText("Paginas");
+
+        jButton3.setText("L/E Pagina");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Mostrar Paginas na RAM");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
-
-        jTextField1.setText("jTextField1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -88,38 +118,59 @@ public class Interface extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(170, 170, 170)
                         .addComponent(jButton2))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(98, 98, 98)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(90, 90, 90)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(113, 113, 113)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton1)))
-                        .addGap(0, 198, Short.MAX_VALUE)))
-                .addContainerGap())
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel1)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jTextFieldprocNome, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jButton1))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jButtonPasso)
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGap(10, 10, 10)
+                                            .addComponent(jButton3))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGap(30, 30, 30)
+                                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(91, 91, 91)
+                                .addComponent(jLabel3)
+                                .addGap(44, 44, 44)))))
+                .addContainerGap(77, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(25, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(44, 44, 44)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
+                    .addComponent(jLabel1)
+                    .addComponent(jTextFieldprocNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonPasso)
+                    .addComponent(jButton3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton2)
-                .addContainerGap())
+                .addGap(13, 13, 13))
         );
 
         pack();
@@ -127,42 +178,81 @@ public class Interface extends javax.swing.JFrame {
 
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
        //Preenche lista 2 com os relativos paginas;
-       DefaultListModel lista = new DefaultListModel();
-       lista.add(0, "item 1");
+       
+       Integer index = jList1.getSelectedIndex();
+       Processo pro = (Processo)lista1.getElementAt(index);
+       int cont = 0;
+       for(Pagina p : pro.paginas){
+           lista.add(cont, p);
+       }
+       //lista.add(0, "item 1");
        //jList2.removeAll();
        jList2.setModel(lista);
+       
     }//GEN-LAST:event_jList1MouseClicked
     int counter = 0;
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-    Processo p = new Processo(counter, "Processo "+counter, Main.ram, Main.mmu, Main.disco);
-    counter++;
-    updateProcList();
+        String procNome = jTextFieldprocNome.getText();
+        //System.out.println(procNome);
+        Processo p = new Processo(counter, procNome, Main.ram, Main.mmu, Main.disco);
+        Main.procLista.add(p);
+        lista1.add(counter,p);
+        counter++;
+        jList1.removeAll();
+        jList1.setModel(lista1);
+        
+        //updateProcList();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void updateProcList(){
-        DefaultListModel list = new DefaultListModel();
+        
         int counter = 0;
         for(Processo proc : Main.disco.memoriaArmazenamento.keySet()){
-            list.add(counter, proc);
+            lista1.add(counter, proc);
             counter ++;
         }
             
         
         jList1.removeAll();
-        jList1.setModel(list);
+        jList1.setModel(lista1);
+        
     }
     
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private Processo achaProc(){
+        Integer index = jList1.getSelectedIndex();
+        Processo pro = (Processo)lista1.getElementAt(index);
+        return pro;
+    }
+    
+    private void jButtonPassoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPassoActionPerformed
+        //Integer index = jList1.getSelectedIndex();
+        //Processo pro = (Processo)lista1.getElementAt(index);
+        
+        for(Processo p : Main.procLista){
+            p.solicitaPagina();
+        }
+        
+    }//GEN-LAST:event_jButtonPassoActionPerformed
 
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
         // TODO add your handling code here:
     }//GEN-LAST:event_jList1ValueChanged
+
+    private void jTextFieldprocNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldprocNomeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldprocNomeActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        Integer index = jList2.getSelectedIndex();
+        Pagina p = (Pagina) lista.getElementAt(index);
+        Processo proc = achaProc();
+        proc.solicitaPagina(p);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        Main.ram.mostraPaginas();
+    }//GEN-LAST:event_jButton2ActionPerformed
     
-    private void criaProc(String procNome){
-        
-    }
     /**
      * @param args the command line arguments
      */
@@ -201,10 +291,15 @@ public class Interface extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButtonPasso;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JList<String> jList1;
     private javax.swing.JList<String> jList2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextFieldprocNome;
     // End of variables declaration//GEN-END:variables
 }

@@ -9,4 +9,9 @@ public class Pagina {
         this.processo = proc;
         this.id = id;
     }
+    
+    @Override
+    public String toString(){
+        return id.toString();
+    }
 }
